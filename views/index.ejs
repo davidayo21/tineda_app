@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi E-commerce</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+    <nav class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="container">
+        <a class="navbar-brand" href="/">🚀 TechStore</a>
+        <div class="navbar-nav">
+            <a class="nav-link" href="/categoria/computadores">Computadores</a>
+            <a class="nav-link" href="/categoria/perifericos">Periféricos</a>
+        </div>
+    </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1 class="text-center mb-4"><%= titulo %></h1>
+
+        <div class="row">
+            <% productos.forEach(item => { %>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <img src="<%= item.imagen %>" class="card-img-top" alt="producto">
+                        <div class="card-body text-center">
+                            <h5 class="card-title"><%= item.nombre %></h5>
+                            <p class="card-text text-success fw-bold">$<%= item.precio %></p>
+                            <button class="btn btn-primary">Comprar Ahora</button>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

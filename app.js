@@ -1,19 +1,79 @@
-//IMportar la libreria para crear aplicaciones web
+// 1. Importar la librería para crear aplicaciones Web
 const express = require('express');
 
-//Crear una instancia de express (aplicacion principla)
+// 2. Crear una instacia de express (aplicación principal)
 const app = express();
 
-//DEfinir un puerto sobre el cual funciona la aplicacion
+// 3. Definir un puerto sobre el cual funciona nuestra app
 const PORT = 3000;
 
-//Crear la primera "ruta" cuando el usuario ingrese a la raiz de nuestra app.
-app.get('/',(req, res) => {
-res.send('<h1>Servidor de E-commerce Inicado </h1><p>NPM y Expressfuncionando! </p>')
+// --- CONFIGURACIÓN ---
+// Establecer EJS como motor de vistas
+app.set('view engine', 'ejs');
+
+// Establecer la carpeta publica con elementos estáticos
+app.use(express.static('public'));
+
+// Simular una lista de productos
+const listaProductos = [
+    {
+    nombre: "Laptop Pro",
+    precio: 850,
+    categoria: "computadores",
+    imagen: "https://dummyimage.com/200x200/000/fff&text=Laptop"
+},
+{
+    nombre: "PC Desktop Gamer",
+    precio: 1200,
+    categoria: "computadores",
+    imagen: "https://dummyimage.com/200x200/000/fff&text=PC+Gamer"
+},
+{
+    nombre: "Audifonos Sony",
+    precio: 125,
+    categoria: "perifericos",
+    imagen: "https://dummyimage.com/200x200/000/fff&text=Audifonos"
+},
+{
+    nombre: "Mouse ergonómico",
+    precio: 50,
+    categoria: "perifericos",
+    imagen: "https://dummyimage.com/200x200/000/fff&text=Mouse"
+},
+{
+    nombre: "Teclado Mecánico",
+    precio: 80,
+    categoria: "perifericos",
+    imagen: "https://dummyimage.com/200x200/000/fff&text=Teclado"
+}
+];
+
+
+// -- RUTAS --
+app.get('/', (req, res) => {
+    // Renderizar la plantilla con los datos proporcionados
+    res.render('index', { 
+        productos: listaProductos, 
+        titulo: "Todos los Productos" 
+    }); 
 });
 
-//
-app.listen(PORT,() =>{
+// Ruta dinámica para categorías
+app.get('/categoria/:nombreCategoria', (req, res) => {
+    const cat = req.params.nombreCategoria;
+    
+    // Filtramos el arreglo según la categoría de la URL
+    const productosFiltrados = listaProductos.filter(
+        p => p.categoria === cat);
+    
+    res.render('index', { 
+        productos: productosFiltrados, 
+        titulo: cat.charAt(0).toUpperCase() + cat.slice(1) // Para poner la primera letra en mayúscula
+    });
+});
+
+// 5. Encender el servidor
+app.listen(PORT, () =>{
     console.log(`>>> Servidor corriendo en http://localhost:${PORT}`);
-    console.log( `>>> Presione Ctrl + c para detener)`);
+    console.log(`>>> Presione Ctrl + c para detener`);
 });
