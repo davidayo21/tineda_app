@@ -1,9 +1,9 @@
-# 🚀 TechStore - E-commerce Workshop
+# 💻 CyberCore - Distribuidora Global de Cómputo
 
-¡Bienvenido a **TechStore**! Este es un proyecto desarrollado para el taller de **Diseño y creación de páginas web para negocios digitales**. Se trata de una aplicación web dinámica construida con el stack de Node.js, enfocada en la escalabilidad y la experiencia de usuario.
+CyberCore es una solución digital avanzada para la gestión y exhibición de equipos informáticos de última generación. Esta plataforma ha sido diseñada para optimizar la venta de laptops de alta gama, estaciones de trabajo y componentes esenciales, garantizando una navegación fluida para el usuario final.
 
-## 🛠️ Tecnologías Utilizadas
-
+## ⚙️ Especificaciones Técnicas
+El despliegue de esta solución se apoya en las siguientes herramientas de ingeniería de software:
 * **Backend:** Node.js & Express
 * **Frontend:** EJS (Embedded JavaScript templates) & Bootstrap 5
 * **Herramientas de Desarrollo:** Nodemon para reinicio automático del servidor
@@ -17,9 +17,9 @@
 ## 📂 Estructura del Proyecto
 
 ```text
-.
+└── views/           # Plantillas de la interfaz (EJS)
+    └── index.ejs    # Vista principal de productos
 ├── app.js           # Servidor principal y configuración de rutas
 ├── package.json     # Gestión de dependencias y scripts
 ├── public/          # Archivos estáticos (CSS, imágenes, JS cliente)
-└── views/           # Plantillas de la interfaz (EJS)
-    └── index.ejs    # Vista principal de productos
+
