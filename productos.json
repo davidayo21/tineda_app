@@ -1,0 +1,32 @@
+[
+    {
+        "nombre": "Laptop Pro",
+        "precio": 850,
+        "categoria": "computadores",
+        "imagen": "https://dummyimage.com/200x200/000/fff&text=Laptop"
+    },
+    {
+        "nombre": "PC Desktop Gamer",
+        "precio": 1200,
+        "categoria": "computadores",
+        "imagen": "https://dummyimage.com/200x200/000/fff&text=PC+Gamer"
+    },
+    {
+        "nombre": "Audifonos Sony",
+        "precio": 125,
+        "categoria": "perifericos",
+        "imagen": "https://dummyimage.com/200x200/000/fff&text=Audifonos"
+    },
+    {
+        "nombre": "Mouse ergonómico",
+        "precio": 50,
+        "categoria": "perifericos",
+        "imagen": "https://dummyimage.com/200x200/000/fff&text=Mouse"
+    },
+    {
+        "nombre": "Teclado Mecánico",
+        "precio": 80,
+        "categoria": "perifericos",
+        "imagen": "https://dummyimage.com/200x200/000/fff&text=Teclado"
+    }
+]

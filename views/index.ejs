@@ -2,41 +2,65 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi E-commerce</title>
+    <title>TechStore | Catálogo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #ffffff; font-family: 'Inter', sans-serif; }
+        /* Cabecera Oscura Profesional */
+        .navbar { background: #0f172a !important; padding: 15px 0; border-bottom: 3px solid #2563eb; }
+        .navbar-brand { color: #fff !important; font-weight: 800; }
+        
+        /* Botones de Categoría (Tus funciones) */
+        .category-btn { 
+            border: 2px solid #e2e8f0; border-radius: 10px; padding: 10px 25px; 
+            color: #475569; font-weight: 600; text-decoration: none; transition: 0.3s;
+        }
+        .category-btn:hover { background: #2563eb; color: white; border-color: #2563eb; }
+        
+        /* Tarjetas */
+        .product-card { border-radius: 15px; border: 1px solid #f1f5f9; transition: 0.3s; }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .img-container { background: #f8fafc; padding: 20px; border-radius: 15px 15px 0 0; text-align: center; }
+        .price { font-size: 1.5rem; font-weight: 800; color: #0f172a; }
+    </style>
 </head>
-<body class="bg-light">
-
-    <nav class="navbar navbar-dark bg-dark shadow-sm">
+<body>
+    <nav class="navbar navbar-expand-lg mb-5">
         <div class="container">
-        <a class="navbar-brand" href="/">🚀 TechStore</a>
-        <div class="navbar-nav">
-            <a class="nav-link" href="/categoria/computadores">Computadores</a>
-            <a class="nav-link" href="/categoria/perifericos">Periféricos</a>
+            <a class="navbar-brand" href="/">🚀 TECHSTORE</a>
+            <a href="/admin" class="btn btn-outline-light btn-sm rounded-pill px-4">Panel de Control</a>
         </div>
-    </div>
     </nav>
 
-    <div class="container mt-5">
-        <h1 class="text-center mb-4"><%= titulo %></h1>
+    <div class="container">
+        <div class="text-center mb-5">
+            <h1 class="fw-bold mb-4"><%= titulo %></h1>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="/categoria/computadores" class="category-btn">💻 Computadores</a>
+                <a href="/categoria/perifericos" class="category-btn">🖱️ Periféricos</a>
+                <a href="/" class="category-btn border-info text-info">Todos</a>
+            </div>
+        </div>
 
-        <div class="row">
+        <div class="row g-4">
             <% productos.forEach(item => { %>
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100 shadow-sm">
-                        <img src="<%= item.imagen %>" class="card-img-top" alt="producto">
-                        <div class="card-body text-center">
-                            <h5 class="card-title"><%= item.nombre %></h5>
-                            <p class="card-text text-success fw-bold">$<%= item.precio %></p>
-                            <button class="btn btn-primary">Comprar Ahora</button>
+                <div class="col-md-4">
+                    <div class="product-card h-100 shadow-sm bg-white">
+                        <div class="img-container">
+                            <img src="<%= item.imagen %>" style="max-height: 160px; width: auto;" alt="item">
+                        </div>
+                        <div class="card-body p-4">
+                            <span class="badge bg-light text-primary border mb-2"><%= item.categoria %></span>
+                            <h5 class="fw-bold mb-3"><%= item.nombre %></h5>
+                            <div class="d-flex justify-content-between align-items-center mt-auto">
+                                <span class="price">$<%= item.precio %></span>
+                                <a href="/producto/<%= item._id %>" class="btn btn-primary rounded-pill px-4">Detalles</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             <% }) %>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

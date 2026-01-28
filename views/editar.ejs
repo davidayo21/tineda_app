@@ -1,0 +1,10 @@
+<div class="container mt-5">
+    <h3>Editar Producto: <%= producto.nombre %></h3>
+    <form action="/admin/actualizar/<%= producto._id %>" method="POST">
+        <input type="text" name="nombre" value="<%= producto.nombre %>" class="form-control mb-2">
+        <input type="number" name="precio" value="<%= producto.precio %>" class="form-control mb-2">
+        <textarea name="descripcion" class="form-control mb-2"><%= producto.descripcion %></textarea>
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        <a href="/admin" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

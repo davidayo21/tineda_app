@@ -1,54 +1,73 @@
-// 1. Importar la librería para crear aplicaciones Web
 const express = require('express');
-const { default: mongoose } = require('mongoose');
-const producto = require('./models/producto');
-
-// 2. Crear una instacia de express (aplicación principal)
+const mongoose = require('mongoose');
+const Producto = require('./models/Producto');
 const app = express();
-
-// 3. Definir un puerto sobre el cual funciona nuestra app
 const PORT = 3000;
 
 // --- CONFIGURACIÓN ---
-// Establecer EJS como motor de vistas
 app.set('view engine', 'ejs');
-
-// Establecer la carpeta publica con elementos estáticos
 app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true })); 
 
-mongoose.connect('mongodb://127.0.0.1:27017/tienda')
-.then(() => console.log("[OK] Conectado a MOngoDB local"))
-.catch(err => console.log("[FAIL] Error de conexión:",err));
+// ---- CONEXION CON MONGODB ATLAS ----
+const uri = "mongodb+srv://admin_tienda:Password123@cluster0.ct4q1c3.mongodb.net/tienda?retryWrites=true&w=majority&appName=Cluster0";
 
+mongoose.connect(uri)
+    .then(() => console.log("[ OK ] ¡Conexión exitosa a MongoDB Atlas!"))
+    .catch(err => console.log("[FAIL] Error de conexión:", err.message));
 
-//COnsultar la lista de productos
-const listaProductos = await producto.find();
-
-// -- RUTAS --
-app.get('/', (req, res) => {
-    // Renderizar la plantilla con los datos proporcionados
-    res.render('index', { 
-        productos: listaProductos, 
-        titulo: "Todos los Productos" 
-    }); 
+// --- RUTAS DE LA TIENDA ---
+app.get('/', async (req, res) => {
+    const listaProductos = await Producto.find();
+    res.render('index', { productos: listaProductos, titulo: "Todos los Productos" }); 
 });
 
-// Ruta dinámica para categorías
-app.get('/categoria/:nombreCategoria', (req, res) => {
+app.get('/categoria/:nombreCategoria', async (req, res) => {
     const cat = req.params.nombreCategoria;
-    
-    // Filtramos el arreglo según la categoría de la URL
-    const productosFiltrados = listaProductos.filter(
-        p => p.categoria === cat);
-    
-    res.render('index', { 
-        productos: productosFiltrados, 
-        titulo: cat.charAt(0).toUpperCase() + cat.slice(1) // Para poner la primera letra en mayúscula
-    });
+    const productosFiltrados = await Producto.find({ categoria: cat });
+    res.render('index', { productos: productosFiltrados, titulo: cat.toUpperCase() });
 });
 
-// 5. Encender el servidor
-app.listen(PORT, () =>{
-    console.log(`>>> Servidor corriendo en http://localhost:${PORT}`);
-    console.log(`>>> Presione Ctrl + c para detener`);
+app.get('/producto/:id', async (req, res) => {
+    const producto = await Producto.findById(req.params.id);
+    res.render('detalle', { producto });
 });
+
+// --- RUTAS DE ADMINISTRACIÓN (CRUD) ---
+
+// 1. Panel Principal
+app.get('/admin', async (req, res) => {
+    const productos = await Producto.find();
+    res.render('admin', { productos });
+});
+
+// 2. Formulario Nuevo
+app.get('/admin/nuevo', (req, res) => {
+    res.render('formulario', { producto: {}, accion: '/admin/guardar', titulo: 'Nuevo Producto' });
+});
+
+// 3. Guardar Nuevo
+app.post('/admin/guardar', async (req, res) => {
+    await Producto.create(req.body);
+    res.redirect('/admin');
+});
+
+// 4. Formulario Editar
+app.get('/admin/editar/:id', async (req, res) => {
+    const producto = await Producto.findById(req.params.id);
+    res.render('formulario', { producto, accion: `/admin/actualizar/${producto._id}`, titulo: 'Editar Producto' });
+});
+
+// 5. Actualizar
+app.post('/admin/actualizar/:id', async (req, res) => {
+    await Producto.findByIdAndUpdate(req.params.id, req.body);
+    res.redirect('/admin');
+});
+
+// 6. Eliminar
+app.post('/admin/eliminar/:id', async (req, res) => {
+    await Producto.findByIdAndDelete(req.params.id);
+    res.redirect('/admin');
+});
+
+app.listen(PORT, () => console.log(`>>> Servidor en http://localhost:${PORT}`));
